@@ -1,0 +1,34 @@
+{
+  "name": "irunhere",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "watch": "./node_modules/.bin/nodemon index.js",
+    "build": "./node_modules/.bin/browserify -t [ babelify --presets [ react ] ] src/main.js -o public/js/dist.js",
+    "watchify": "./node_modules/.bin/watchify -t [ babelify --presets [ react ] ] src/main.js -o public/js/dist.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "dmamills",
+  "dependencies": {
+    "async": "^1.5.2",
+    "babel-preset-react": "^6.5.0",
+    "babelify": "^7.3.0",
+    "body-parser": "^1.15.1",
+    "connect-multiparty": "^2.0.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "lodash": "^4.13.1",
+    "morgan": "^1.7.0",
+    "parse-gpx": "^1.0.0",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "superagent": "^2.0.0"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.1",
+    "dotenv": "^2.0.0",
+    "nodemon": "^1.9.2",
+    "watchify": "^3.7.0"
+  }
+}
