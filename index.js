@@ -40,11 +40,13 @@ app.post('/runs', multipartMiddleware, (req, res) => {
 
     async.reduce(files, [], (acc, f, cb) => {
             parseGpx(f).then(track => {
+                console.log(track.length);
                 cb(null, acc.concat(track));
             }, function(err) {
                 console.log(err);
             });
     }, (err, result) => {
+        console.log(result.length);
         result = result.map(r => {
             return {
                 lat: r.latitude,
