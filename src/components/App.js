@@ -10,13 +10,15 @@ const ThemeSelector = require('./theme-selector');
 const Map = require('google-maps-react').Map;
 
 const initalTheme = require('../themes.json').themes[0];
-
+const heatmapTheme = require('../heatmap-themes').themes[1];
 
 const App = React.createClass({
     getInitialState() {
         return {
             hasUploaded: false,
             points: [],
+            heatmap_settings: {},
+            heatmap_theme: heatmapTheme.settings,
             theme: initalTheme.settings
         };
     },
@@ -37,9 +39,9 @@ const App = React.createClass({
 
     },
     _onUpload(points) {
-        this.setState({
-            points
-        });
+        let state = this.state;
+        state.points = points;
+        this.setState(state);
     },
     _themeChanged(theme) {
         console.log(theme);

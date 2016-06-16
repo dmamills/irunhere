@@ -16,6 +16,7 @@ const Uploader = React.createClass({
         request.post('/runs')
         .send(new FormData(this.refs.runs))
         .end((err, res) => {
+console.log(err);
             this.props.onUpload(res.body.data);
         });
     },

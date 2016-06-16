@@ -11,7 +11,6 @@ html, body, .map-wrap { height: 100%; }
 
 form.upload-runs {
     border:1px solid black;
-
 }
 
 a[href^="http://maps.google.com/maps"]{display:none !important}

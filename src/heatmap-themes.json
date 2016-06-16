@@ -1,5 +1,6 @@
 {
     themes: [
+        { name: 'Default', settings: null },
         { name: 'Not Default', settings: [
             'rgba(0, 255, 255, 0)',
             'rgba(0, 255, 255, 1)',

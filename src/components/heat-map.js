@@ -1,6 +1,7 @@
 "use strict";
 
 const React = require('react');
+const _ = require('lodash');
 
 const Heatmap = React.createClass({
 
@@ -13,6 +14,21 @@ const Heatmap = React.createClass({
         if(props.points.length !== this.props.points.length) {
             this._updateHeatmap(props.points);
         }
+
+    },
+    _updateGradient(gradient) {
+
+        console.log(this.state);
+        let heatmap = this.state.heatmap;
+
+        if(!heatmap) {
+            setTimeout(_ => {
+                this._updateGradient(gradient);
+            });
+            return;
+        }
+
+        heatmap.set('gradient', gradient);
     },
     _updateHeatmap(points) {
         let map = this.props.map;
@@ -37,6 +53,7 @@ const Heatmap = React.createClass({
         map.fitBounds(bounds);
 
         this.setState({ heatmap });
+        this._updateGradient(this.props.theme);
     },
     render() {
         return null;

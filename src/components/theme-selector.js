@@ -1,6 +1,5 @@
 "use strict";
 const React = require('react');
-
 const themes = require('../themes.json').themes;
 
 const ThemeSelector = React.createClass({
