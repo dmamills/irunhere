@@ -29,9 +29,12 @@ const Heatmap = React.createClass({
             map: map
         });
 
-        //TODO: set zoom + position to fit all points
-        map.setCenter(points[Math.floor(points.length/2)+1]);
+        let bounds = points.reduce((bounds, point) => {
+            bounds.extend(point);
+            return bounds;
+        },  new google.maps.LatLngBounds());
 
+        map.fitBounds(bounds);
         this.setState({ heatmap });
     },
     render() {
