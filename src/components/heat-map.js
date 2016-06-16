@@ -35,6 +35,7 @@ const Heatmap = React.createClass({
         },  new google.maps.LatLngBounds());
 
         map.fitBounds(bounds);
+
         this.setState({ heatmap });
     },
     render() {

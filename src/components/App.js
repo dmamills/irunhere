@@ -17,7 +17,7 @@ const App = React.createClass({
         return {
             hasUploaded: false,
             points: [],
-            theme: initalTheme
+            theme: initalTheme.settings
         };
     },
     _capture() {

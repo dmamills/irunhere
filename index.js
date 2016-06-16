@@ -12,6 +12,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const async = require('async');
 const parseGpx = require('parse-gpx');
+const randomWord = require('random-word');
 
 let app = express();
 let multipartMiddleware = multipart();
@@ -64,13 +65,28 @@ app.get('/convert', (req, res) => {
     request(req.query.url).pipe(res);
 });
 
+
+const getRandomFilename = _ => {
+    if(process.env.NODE_ENV === 'production') {
+        return `${randomWord()}-${randomWord()}.png`;
+    } else {
+        return 'test.png';
+    }
+}
+
 app.post('/save', (req, res) => {
 
     let imgData = req.body.data;
+    let filename = getRandomFilename();
 
-    fs.writeFile(__dirname + '/public/test.png', imgData, {encoding: 'base64'}, (err) => {
+    fs.writeFile(`${__dirname}/public/imgs/${filename}`, imgData, {encoding: 'base64'}, (err) => {
+        if(err) {
+            res.status(500).json({
+                error: 'Something gone wrong'
+            });
+        }
         res.json({
-            url:'test.png'
+            url:`/img/${filename}`
         });
     })
 });
