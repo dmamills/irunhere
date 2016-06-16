@@ -60,6 +60,20 @@ app.post('/runs', multipartMiddleware, (req, res) => {
     });
 });
 
+app.get('/convert', (req, res) => {
+    request(req.query.url).pipe(res);
+});
+
+app.post('/save', (req, res) => {
+
+    let imgData = req.body.data;
+
+    fs.writeFile(__dirname + '/public/test.png', imgData, {encoding: 'base64'}, (err) => {
+        res.json({
+            url:'test.png'
+        });
+    })
+});
 
 app.get('/auth/strava', (req, res) => {
     let code = req.query.code;
