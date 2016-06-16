@@ -23,6 +23,7 @@ console.log(err);
     render() {
         return (
             <form className="upload-runs" ref="runs">
+                <h3>Upload Runs</h3>
                 <input name="runs" type="file" multiple ref="files"/>
                 <button onClick={this._upload}>Upload GPX file(s)</button>
             </form>

@@ -15,10 +15,13 @@ const Heatmap = React.createClass({
             this._updateHeatmap(props.points);
         }
 
+        if(!_.isEqual(props.theme, this.props.theme)) {
+            this._updateGradient(props.theme);
+        }
+
     },
     _updateGradient(gradient) {
 
-        console.log(this.state);
         let heatmap = this.state.heatmap;
 
         if(!heatmap) {
@@ -42,7 +45,8 @@ const Heatmap = React.createClass({
 
         heatmap = new google.maps.visualization.HeatmapLayer({
             data: points,
-            map: map
+            map: map,
+            gradient: this.props.theme
         });
 
         let bounds = points.reduce((bounds, point) => {
@@ -51,9 +55,7 @@ const Heatmap = React.createClass({
         },  new google.maps.LatLngBounds());
 
         map.fitBounds(bounds);
-
         this.setState({ heatmap });
-        this._updateGradient(this.props.theme);
     },
     render() {
         return null;

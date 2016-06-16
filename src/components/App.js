@@ -7,6 +7,7 @@ const Uploader = require('./uploader');
 const Heatmap = require('./heat-map');
 const Theme = require('./theme');
 const ThemeSelector = require('./theme-selector');
+const HeatmapThemeSelector = require('./heatmap-theme-selector');
 const Map = require('google-maps-react').Map;
 
 const initalTheme = require('../themes.json').themes[0];
@@ -43,6 +44,12 @@ const App = React.createClass({
         state.points = points;
         this.setState(state);
     },
+    _heatmapThemeChanged(theme) {
+        console.log(theme)
+        let state = this.state;
+        state.heatmap_theme = theme.settings;
+        this.setState(state);
+    },
     _themeChanged(theme) {
         console.log(theme);
         let state = this.state;
@@ -63,6 +70,7 @@ const App = React.createClass({
                 <div className="control-pane">
                     <Uploader onUpload={this._onUpload}/>
                     <ThemeSelector onSelect={this._themeChanged} />
+                    <HeatmapThemeSelector onSelect={this._heatmapThemeChanged} />
                     <div className="heatmap-settings">
                         <button onClick={this._capture}>Save Image</button>
                     </div>
