@@ -19,11 +19,25 @@ const Heatmap = React.createClass({
             this._updateGradient(props.theme);
         }
 
+        if(!_.isEqual(props.settings, this.props.settings)) {
+            this._updateSettings(props.settings);
+        }
+
+    },
+    _updateSettings(settings) {
+
+        let heatmap = this.state.heatmap;
+        if(!heatmap) return;
+
+        for(let k in settings) {
+            heatmap.set(k, settings[k]);
+        }
     },
     _updateGradient(gradient) {
 
         let heatmap = this.state.heatmap;
 
+        //TODO: Make this RIP
         if(!heatmap) {
             setTimeout(_ => {
                 this._updateGradient(gradient);
@@ -48,6 +62,8 @@ const Heatmap = React.createClass({
             map: map,
             gradient: this.props.theme
         });
+
+        this._updateSettings(this.props.settings);
 
         let bounds = points.reduce((bounds, point) => {
             bounds.extend(point);

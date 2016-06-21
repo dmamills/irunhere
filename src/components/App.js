@@ -8,6 +8,7 @@ const Heatmap = require('./heat-map');
 const Theme = require('./theme');
 const ThemeSelector = require('./theme-selector');
 const HeatmapThemeSelector = require('./heatmap-theme-selector');
+const HeatmapControls = require('./heatmap-controls');
 const Map = require('google-maps-react').Map;
 
 const initalTheme = require('../themes.json').themes[0];
@@ -18,7 +19,7 @@ const App = React.createClass({
         return {
             hasUploaded: false,
             points: [],
-            heatmap_settings: {},
+            heatmap_settings: { intensity: 15 },
             heatmap_theme: heatmapTheme.settings,
             theme: initalTheme.settings
         };
@@ -45,16 +46,19 @@ const App = React.createClass({
         this.setState(state);
     },
     _heatmapThemeChanged(theme) {
-        console.log(theme)
         let state = this.state;
         state.heatmap_theme = theme.settings;
         this.setState(state);
     },
     _themeChanged(theme) {
-        console.log(theme);
         let state = this.state;
         state.theme = theme.settings;
         this.setState(state);
+    },
+    _onUpdates(settings) {
+        let state = this.state;
+        state.heatmap_settings = settings;
+        this.setState(settings);
     },
     componentDidMount() {
     },
@@ -71,13 +75,14 @@ const App = React.createClass({
                     <Uploader onUpload={this._onUpload}/>
                     <ThemeSelector onSelect={this._themeChanged} />
                     <HeatmapThemeSelector onSelect={this._heatmapThemeChanged} />
+                    <HeatmapControls onUpdates={this._onUpdates}/>
                     <div className="heatmap-settings">
                         <button onClick={this._capture}>Save Image</button>
                     </div>
                 </div>
                 <div ref="content">
                     <Map google={window.google} initialCenter={position}>
-                        <Heatmap theme={this.state.heatmap_theme} points={this.state.points}/>
+                        <Heatmap theme={this.state.heatmap_theme} points={this.state.points} settings={this.state.heatmap_settings}/>
                         <Theme theme={this.state.theme}/>
                     </Map>
                 </div>

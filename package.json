@@ -5,6 +5,8 @@
   "scripts": {
     "watch": "./node_modules/.bin/nodemon index.js",
     "build": "./node_modules/.bin/browserify -t [ babelify --presets [ react ] ] src/main.js -o public/js/dist.js",
+    "watchsassy": "sass --watch sass/main.scss:public/css/build.css",
+    "buildsassy": "sass sass/main.scss public/css/build.css",
     "watchify": "./node_modules/.bin/watchify -t [ babelify --presets [ react ] ] src/main.js -o public/js/dist.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
