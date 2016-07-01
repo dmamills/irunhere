@@ -5,11 +5,13 @@ const request = require('superagent');
 
 const Uploader = require('./uploader');
 const Heatmap = require('./heat-map');
+const UploadedModal = require('./uploaded-modal');
 const Theme = require('./theme');
 const ThemeSelector = require('./theme-selector');
 const HeatmapThemeSelector = require('./heatmap-theme-selector');
 const HeatmapControls = require('./heatmap-controls');
 const Map = require('google-maps-react').Map;
+
 
 const initalTheme = require('../themes.json').themes[0];
 const heatmapTheme = require('../heatmap-themes').themes[1];
@@ -19,6 +21,7 @@ const App = React.createClass({
         return {
             hasUploaded: false,
             points: [],
+            img_url: '',
             heatmap_settings: { intensity: 15 },
             heatmap_theme: heatmapTheme.settings,
             theme: initalTheme.settings
@@ -34,8 +37,10 @@ const App = React.createClass({
             request.post('/save')
             .send({'data': data.split('data:image/png;base64,')[1]})
             .end((err, res) => {
-                window.open(res.url);
-                console.log('ayy');
+                let state = this.state;
+                state.hasUploaded = true;
+                state.img_url = res.body.url;
+                this.setState(state);
             });
         });
 
@@ -60,8 +65,6 @@ const App = React.createClass({
         state.heatmap_settings = settings;
         this.setState(settings);
     },
-    componentDidMount() {
-    },
     render() {
 
         let position = {
@@ -71,6 +74,7 @@ const App = React.createClass({
 
         return (
             <div className="app-container">
+                <UploadedModal show={this.state.hasUploaded} url={this.state.img_url}/>
                 <div className="control-pane">
                     <div className="widget brand">
                         <h1>I RUN HERE</h1>

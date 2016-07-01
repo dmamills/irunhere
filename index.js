@@ -16,6 +16,8 @@ const async = require('async');
 const parseGpx = require('parse-gpx');
 const randomWord = require('random-word');
 
+const mailer = require('./mailer');
+
 let app = express();
 let multipartMiddleware = multipart();
 
@@ -87,9 +89,16 @@ app.post('/save', (req, res) => {
             });
         }
         res.json({
-            url:`/img/${filename}`
+            url:`/imgs/${filename}`
         });
     })
+});
+
+
+app.get('/email', (req, res) => {
+    mailer.orderConfirmation('mills.dma@gmail.com').then(data => {
+        res.json(data);
+    });
 });
 
 app.get('/auth/strava', (req, res) => {
