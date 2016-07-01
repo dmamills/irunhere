@@ -21,7 +21,7 @@ const ThemeSelector = React.createClass({
         });
 
         return (
-            <div className="theme-selector">
+            <div className="widget theme-selector">
                 <h4>Map Themes</h4>
                 <ul>
                     {themes}

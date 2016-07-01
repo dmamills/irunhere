@@ -20,8 +20,8 @@ const HeatmapThemeSelector = React.createClass({
         });
 
         return (
-            <div className="theme-selector">
-                <h4>HM Themes</h4>
+            <div className="widget theme-selector">
+                <h4>Heatmap Themes</h4>
                 <ul>
                     {themes}
                 </ul>

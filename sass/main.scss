@@ -1,8 +1,59 @@
 
-h1 {
-    font-size: 100em;
+$brand-font: 'Raleway';
+$border-color: #eee;
+
+html, body, .map-wrap { height: 100%; }
+
+
+.app-container {
+    display: flex;
 }
 
-body {
-    color: red;
+.control-pane {
+
+    font-family: $brand-font, sans-serif;
+    display: flex;
+    flex-flow: column;
+
+    .widget {
+        border-bottom: 1px solid $border-color;
+        padding: 10px;
+    }
+
+    .brand {
+        h1 {
+            margin: 0;
+        }
+    }
+
+    .heatmap-controls {
+        div {
+            padding: 10px 0;
+        }
+
+        label {
+            padding-left: 5px;
+            font-size: 0.8em;
+        }
+    }
 }
+
+.upload-runs button {
+    display: block;
+    margin-top: 10px;
+}
+
+.preview-container {
+    border: 1px solid $border-color;
+}
+
+a[href^="http://maps.google.com/maps"]{display:none !important}
+a[href^="https://maps.google.com/maps"]{display:none !important}
+
+.gmnoprint a, .gmnoprint span, .gm-style-cc {
+    display:none;
+}
+.gmnoprint div {
+    background:none !important;
+}
+

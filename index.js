@@ -8,6 +8,8 @@ const session = require('express-session');
 const express = require('express');
 const request = require('superagent');
 const multipart = require('connect-multiparty');
+const helmet = require('helmet');
+
 const fs = require('fs');
 const _ = require('lodash');
 const async = require('async');
@@ -17,6 +19,7 @@ const randomWord = require('random-word');
 let app = express();
 let multipartMiddleware = multipart();
 
+app.use(helmet());
 app.use(logger("dev"));
 app.use(cookieParser());
 app.use(bodyParser.json({limit: '50mb'}));
@@ -41,13 +44,11 @@ app.post('/runs', multipartMiddleware, (req, res) => {
 
     async.reduce(files, [], (acc, f, cb) => {
             parseGpx(f).then(track => {
-                console.log(track.length);
                 cb(null, acc.concat(track));
             }, function(err) {
                 console.log(err);
             });
     }, (err, result) => {
-        console.log(result.length);
         result = result.map(r => {
             return {
                 lat: r.latitude,

@@ -26,11 +26,16 @@ const Heatmap = React.createClass({
     },
     _updateSettings(settings) {
 
-        let heatmap = this.state.heatmap;
-        if(!heatmap) return;
-
         for(let k in settings) {
-            heatmap.set(k, settings[k]);
+            if(k === 'zoom') {
+                let value = parseInt(settings[k], 10);
+                this.props.map.setZoom(value);
+            } else {
+                if(this.state.heatmap) {
+                    let heatmap = this.state.heatmap;
+                    heatmap.set(k, settings[k]);
+                }
+            }
         }
     },
     _updateGradient(gradient) {

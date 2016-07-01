@@ -22,8 +22,8 @@ console.log(err);
     },
     render() {
         return (
-            <form className="upload-runs" ref="runs">
-                <h3>Upload Runs</h3>
+            <form className="widget upload-runs" ref="runs">
+                <h4>Upload Runs</h4>
                 <input name="runs" type="file" multiple ref="files"/>
                 <button onClick={this._upload}>Upload GPX file(s)</button>
             </form>

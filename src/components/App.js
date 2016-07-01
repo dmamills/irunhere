@@ -70,17 +70,17 @@ const App = React.createClass({
         };
 
         return (
-            <div>
+            <div className="app-container">
                 <div className="control-pane">
+                    <div className="widget brand">
+                        <h1>I RUN HERE</h1>
+                    </div>
                     <Uploader onUpload={this._onUpload}/>
                     <ThemeSelector onSelect={this._themeChanged} />
                     <HeatmapThemeSelector onSelect={this._heatmapThemeChanged} />
-                    <HeatmapControls onUpdates={this._onUpdates}/>
-                    <div className="heatmap-settings">
-                        <button onClick={this._capture}>Save Image</button>
-                    </div>
+                    <HeatmapControls onUpdates={this._onUpdates} capture={this._capture.bind(this)}/>
                 </div>
-                <div ref="content">
+                <div className="preview-container" ref="content">
                     <Map google={window.google} initialCenter={position}>
                         <Heatmap theme={this.state.heatmap_theme} points={this.state.points} settings={this.state.heatmap_settings}/>
                         <Theme theme={this.state.theme}/>
