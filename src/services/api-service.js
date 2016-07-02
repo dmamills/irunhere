@@ -13,6 +13,16 @@ const uploadCanvas = (dataUrl) => {
     });
 };
 
+const getCountries = () => {
+    return new Promise((resolve, reject) => {
+        request('/countries')
+        .end((err, res) => {
+            if(err) reject(err);
+            else resolve(res.body.countries);
+        });
+    });
+};
+
 const shippingEstimate = (data) => {
     return new Promise((resolve, reject) => {
         request.post('/shipping')
@@ -22,7 +32,6 @@ const shippingEstimate = (data) => {
             else resolve(res);
         });
     });
-
 }
 
 const submitOrder = (data) => {
@@ -39,5 +48,6 @@ const submitOrder = (data) => {
 module.exports = {
     uploadCanvas,
     shippingEstimate,
-    submitOrder
+    submitOrder,
+    getCountries
 };

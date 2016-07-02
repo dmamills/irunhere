@@ -17,6 +17,7 @@ const parseGpx = require('parse-gpx');
 const randomWord = require('random-word');
 
 const mailer = require('./mailer');
+const PRINTFUL_AUTH = `Basic ${new Buffer(process.env.PRINTFUL_API_KEY).toString('base64')}`;
 
 let app = express();
 let multipartMiddleware = multipart();
@@ -38,6 +39,25 @@ const getVariantId = (body) => {
     return 2;
 }
 
+let countriesCache = [];
+
+app.get('/countries', (req, res) => {
+    if(countriesCache.length === 0) {
+        request('https://api.theprintful.com/countries')
+        .set('Authorization', PRINTFUL_AUTH)
+        .end((err, apiRes) => {
+            countriesCache = apiRes.body.result;
+            res.json({
+                countries: countriesCache
+            });
+        });
+    } else {
+        res.json({ 
+            countries: countriesCache
+        });
+    }
+});
+
 app.post('/shipping', (req, res) => {
 
     let info = {
@@ -55,7 +75,7 @@ app.post('/shipping', (req, res) => {
     };
 
     request.post('https://api.theprintful.com/shipping/rates')
-    .set('Authorization', `Basic ${new Buffer(process.env.PRINTFUL_API_KEY).toString('base64')}`)
+    .set('Authorization', PRINTFUL_AUTH)
     .send(info)
     .end((err, apiRes) => {
         res.json(apiRes.body);

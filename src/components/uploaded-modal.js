@@ -7,9 +7,22 @@ const api = require('../services/api-service');
 const UploadedModal = React.createClass({
 
     getInitialState() {
-        hasShipping: false,
+        return {
+            countries: [],
+            shipping_estimates: null
+        }
+    },
+    componentDidMount() {
+        api.getCountries().then(countries => {
+            let state = this.state;
+            state.countries = countries;
+            this.setState(state);
+        }, err => {
+            console.log(err);
+        });
     },
     _getShippingEstimate() {
+
         let settings = {
             style: this.refs.style.value,
             dimensions: this.refs.dimensions.value,
@@ -26,11 +39,69 @@ const UploadedModal = React.createClass({
        console.log(settings);
 
        api.shippingEstimate(settings).then(res => {
-            console.log(res.body);
+            let state = this.state;
+            state.shipping_estimates = res.body.result;
+            this.setState(state);
         });
+    },
+    _submitOrder() {
+
+        let settings = {
+            style: this.refs.style.value,
+            dimensions: this.refs.dimensions.value,
+            first_name: this.refs.first_name.value,
+            last_name: this.refs.last_name.value,
+            address: this.refs.address1.value,
+            state: this.refs.state.value,
+            zip: this.refs.zip.value,
+            country: this.refs.country.value,
+            img_url: this.props.url,
+            email: this.refs.email.value,
+            shipping_method: this.refs.shipping_method.value
+        };
+
+        console.log('submit order');
+        console.log(settings);
+    },
+    _countrySelect(e) {
+        let state = this.state;
+        let code = e.target.value;
+        state.selectedCountry = state.countries.filter(c => c.code === code)[0];
+        this.setState(state);
     },
     render() {
         if(!this.props.show) return false;
+
+        let shipping_estimates = false;
+        if(this.state.shipping_estimates) {
+            shipping_estimates = (
+                <div className="shipping-selection">
+                    <h4>Shipping Method</h4>
+                    <select ref="shipping_method">
+                        {this.state.shipping_estimates.map(s => <option key={s.id} value={s.id}> {s.name} - ${s.rate}</option>)};
+                    </select>
+                </div>
+            );
+        }
+
+
+        let shippingBtn = (<button onClick={this._getShippingEstimate}>Save</button>);
+
+        if(this.state.shipping_estimates) {
+            shippingBtn = (<button onClick={this._submitOrder}>Submit Order</button>);
+        }
+
+        let states = false;
+        if(this.state.selectedCountry && this.state.selectedCountry.states) {
+            states = (
+                <div>
+                    <label for="state">State/Province</label>
+                    <select ref="state" id="state">
+                        {this.state.selectedCountry.states.map(s => <option key={s.code} value={s.code}>{s.name}</option>)}
+                    </select>
+                </div>
+            );
+        }
 
         return (
             <Modal isOpen={true}>
@@ -57,12 +128,13 @@ const UploadedModal = React.createClass({
                     <input type="text" ref="city" id="city"/>
                 </div>
                 <div>
-                    <label for="state">State</label>
-                    <input type="text" ref="state" id="state"/>
+                    <label for="country">Country</label>
+                    <select ref="country" id="country" onChange={this._countrySelect}>
+                        {this.state.countries.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
+                    </select>
                 </div>
                 <div>
-                    <label for="country">Country</label>
-                    <input type="text" ref="country" id="country"/>
+                    {states}
                 </div>
                 <div>
                     <label for="zip">zip</label>
@@ -84,7 +156,8 @@ const UploadedModal = React.createClass({
                     </select>
                 </div>
                 <div>
-                    <button onClick={this._getShippingEstimate}>Save</button>
+                    {shipping_estimates}
+                    {shippingBtn}
                     <button onClick={this.props.closeModal}>Close</button>
                 </div>
             </Modal>
