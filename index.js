@@ -68,10 +68,26 @@ const convertDimension = dimension => {
     return dimension.replace('x', '×');
 }
 
+let productsCache = {
+    'poster': {},
+    'framed': {}
+}
+
 app.get('/product', (req, res) => {
-    printfulApi.getProductId('poster', convertDimension('10x10')).then(variants => {
-        res.json(variants);
-    });
+
+    let style = req.query.style;
+    let dimensions = req.query.dimensions;
+
+    if(productsCache[style][dimensions]) {
+        console.log('fetching from cache');
+        res.json(productsCache[style][dimensions]);
+    } else {
+        printfulApi.getProduct(style, convertDimension(dimensions)).then(product => {
+            console.log('fetching from api');
+            productsCache[style][dimensions] = product
+            res.json(product);
+        });
+    }
 });
 
 app.post('/shipping', (req, res) => {

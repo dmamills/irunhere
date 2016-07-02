@@ -23,6 +23,16 @@ const getCountries = () => {
     });
 };
 
+const getProduct = (style, dimensions) => {
+    return new Promise((resolve, reject) => {
+        request(`/product?style=${style}&dimensions=${dimensions}`)
+        .end((err, res) => {
+            if(err) reject(err);
+            else resolve(res.body.product);
+        });
+    });
+}
+
 const shippingEstimate = (data) => {
     return new Promise((resolve, reject) => {
         request.post('/shipping')
@@ -49,5 +59,6 @@ module.exports = {
     uploadCanvas,
     shippingEstimate,
     submitOrder,
+    getProduct,
     getCountries
 };

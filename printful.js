@@ -9,7 +9,7 @@ const PRODUCT_TYPES = {
     'framed': 2
 };
 
-const getProductId = (type, dimensions) => {
+const getProduct = (type, dimensions) => {
     return new Promise((resolve, reject) => {
         request(`${BASE_URL}/products/${PRODUCT_TYPES[type]}`)
         .set('Authorization', PRINTFUL_AUTH)
@@ -45,8 +45,7 @@ const getShippingRates = (info) => {
 }
 
 module.exports = {
-    getProductId,
     getCountries,
     getShippingRates,
-    getProductId
+    getProduct
 }
