@@ -17,10 +17,11 @@ const parseGpx = require('parse-gpx');
 const randomWord = require('random-word');
 
 const mailer = require('./mailer');
-const PRINTFUL_AUTH = `Basic ${new Buffer(process.env.PRINTFUL_API_KEY).toString('base64')}`;
+const printfulApi = require('./printful');
 
 let app = express();
 let multipartMiddleware = multipart();
+let countriesCache = [];
 
 app.use(helmet());
 app.use(logger("dev"));
@@ -36,26 +37,41 @@ app.get('/', (req, res) => {
 });
 
 const getVariantId = (body) => {
-    return 2;
-}
 
-let countriesCache = [];
+    const product_ids = {
+        'poster': 1,
+        'framed': 2
+    };
+
+    let style = product_ids[body.style];
+    let dimensions = body.dimensions;
+
+    return 2;
+};
 
 app.get('/countries', (req, res) => {
     if(countriesCache.length === 0) {
-        request('https://api.theprintful.com/countries')
-        .set('Authorization', PRINTFUL_AUTH)
-        .end((err, apiRes) => {
-            countriesCache = apiRes.body.result;
+        printfulApi.getCountries().then(countries => {
+            countriesCache = countries;
             res.json({
-                countries: countriesCache
+                countries
             });
         });
     } else {
-        res.json({ 
+        res.json({
             countries: countriesCache
         });
     }
+});
+
+const convertDimension = dimension => {
+    return dimension.replace('x', '×');
+}
+
+app.get('/product', (req, res) => {
+    printfulApi.getProductId('poster', convertDimension('10x10')).then(variants => {
+        res.json(variants);
+    });
 });
 
 app.post('/shipping', (req, res) => {
@@ -70,15 +86,12 @@ app.post('/shipping', (req, res) => {
         },
         "items": [{
             "quantity": 1,
-            "variant_id": getVariantId(req.body)
+            "variant_id": 2
         }]
     };
 
-    request.post('https://api.theprintful.com/shipping/rates')
-    .set('Authorization', PRINTFUL_AUTH)
-    .send(info)
-    .end((err, apiRes) => {
-        res.json(apiRes.body);
+    printfulApi.getShippingRates(info).then(rates => {
+        res.json(rates);
     });
 });
 

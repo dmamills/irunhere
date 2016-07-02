@@ -88,7 +88,7 @@ const App = React.createClass({
                     <HeatmapControls onUpdates={this._onUpdates} capture={this._capture}/>
                 </div>
                 <div className="preview-container" ref="content">
-                    <Map google={window.google} initialCenter={position}>
+                    <Map google={window.google} initialCenter={position} zoom={this.state.heatmap_settings.zoom}>
                         <Heatmap theme={this.state.heatmap_theme} points={this.state.points} settings={this.state.heatmap_settings}/>
                         <Theme theme={this.state.theme}/>
                     </Map>

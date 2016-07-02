@@ -63,6 +63,14 @@ const UploadedModal = React.createClass({
         console.log('submit order');
         console.log(settings);
     },
+    _getProduct(e) {
+        let settings = {
+            style: this.refs.style.value,
+            dimensions: this.refs.dimensions.value
+        };
+
+        console.log(settings);
+    },
     _countrySelect(e) {
         let state = this.state;
         let code = e.target.value;
@@ -142,14 +150,14 @@ const UploadedModal = React.createClass({
                 </div>
                 <div>
                     <label for="style">Style</label>
-                    <select ref="style" id="style">
+                    <select ref="style" id="style" onChange={this._getProduct}>
                         <option value="poster">Poster</option>
                         <option value="framed">Framed Poster</option>
                     </select>
                 </div>
                 <div>
                     <label for="dimensions">Dimensions</label>
-                    <select ref="dimensions" id="dimensions">
+                    <select ref="dimensions" id="dimensions" onChange={this._getProduct}>
                         <option value="12x16">12x16</option>
                         <option value="16x20">16x20</option>
                         <option value="24x36">24x36</option>
