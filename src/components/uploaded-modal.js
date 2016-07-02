@@ -9,6 +9,7 @@ const UploadedModal = React.createClass({
     getInitialState() {
         return {
             countries: [],
+            product: false,
             shipping_estimates: null
         }
     },
@@ -60,7 +61,6 @@ const UploadedModal = React.createClass({
             shipping_method: this.refs.shipping_method.value
         };
 
-        console.log('submit order');
         console.log(settings);
     },
     _getProduct(e) {
@@ -68,8 +68,13 @@ const UploadedModal = React.createClass({
             style: this.refs.style.value,
             dimensions: this.refs.dimensions.value
         };
-
         console.log(settings);
+
+        api.getProduct(settings.style, settings.dimensions).then(product => {
+            let state = this.state;
+            state.product = product;
+            this.setState(state);
+        });
     },
     _countrySelect(e) {
         let state = this.state;
@@ -92,7 +97,6 @@ const UploadedModal = React.createClass({
             );
         }
 
-
         let shippingBtn = (<button onClick={this._getShippingEstimate}>Save</button>);
 
         if(this.state.shipping_estimates) {
@@ -111,10 +115,22 @@ const UploadedModal = React.createClass({
             );
         }
 
+        let product = false;
+        if(this.state.product) {
+            product = (<div>
+                <h5>Selected Product</h5>
+                <img width="25%" height="25%" src={this.state.product.image}/>
+                <div>
+                    <strong>{this.state.product.name}</strong> - <span>${this.state.product.price}</span>
+                </div>
+            </div>);
+        }
+
         return (
             <Modal isOpen={true}>
                 <h1>Order Settings</h1>
                 <img width="50%" height="50%" src={this.props.url} />
+                {product}
                 <div>
                     <label for="first_name">First Name</label>
                     <input type="text" ref="first_name" id="first_name"/>

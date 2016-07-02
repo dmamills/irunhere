@@ -80,12 +80,16 @@ app.get('/product', (req, res) => {
 
     if(productsCache[style][dimensions]) {
         console.log('fetching from cache');
-        res.json(productsCache[style][dimensions]);
+        res.json({
+            product: productsCache[style][dimensions]
+        });
     } else {
         printfulApi.getProduct(style, convertDimension(dimensions)).then(product => {
             console.log('fetching from api');
-            productsCache[style][dimensions] = product
-            res.json(product);
+            productsCache[style][dimensions] = product;
+            res.json({
+                product: product
+            });
         });
     }
 });
