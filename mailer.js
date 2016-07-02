@@ -5,15 +5,19 @@ const handlebars = require('handlebars');
 const sendgrid = require('sendgrid').SendGrid(process.env.SENDGRID_API_KEY)
 
 const from_email = new helper.Email(process.env.FROM_EMAIL)
-const confirmationTemplate = handlebars.compile(fs.readFileSync(`${__dirname}\/templates\/order-confirmation.html`, 'utf8'));
 
-const orderConfirmation = (to_email, locals) => {
+const fileToTemplateFn = (name) => {
+    let filepath = `${__dirname}\/templates\/${name}.html`;
+    // console.log('compiling template: ' + filepath);
+    let template = fs.readFileSync(filepath, 'utf8');
+    return handlebars.compile(template);
+};
 
-    let subject = "Thank you for your order"
-    let content = new helper.Content("text/html", confirmationTemplate(locals));
+const confirmationTemplate = fileToTemplateFn('order-confirmation');
+const shippedTemplate = fileToTemplateFn('order-shipped');
 
-    to_email = new helper.Email(to_email);
-    let mail = new helper.Mail(from_email, subject, to_email, content)
+const sendMail = mail => {
+
     let requestBody = mail.toJSON();
     let request = sendgrid.emptyRequest();
     request.method = 'POST';
@@ -27,6 +31,27 @@ const orderConfirmation = (to_email, locals) => {
     });
 };
 
+const orderShipped = (to_email, locals) => {
+    let subject = 'Your order has shipped!';
+    let content = new helper.Content("text/html", shippedTemplate(locals));
+    to_email = new helper.Email(to_email);
+    let mail = new helper.Mail(from_email, subject, to_email, content)
+
+    return sendMail(mail);
+}
+
+
+const orderConfirmation = (to_email, locals) => {
+
+    let subject = "Thank you for your order"
+    let content = new helper.Content("text/html", confirmationTemplate(locals));
+
+    to_email = new helper.Email(to_email);
+    let mail = new helper.Mail(from_email, subject, to_email, content)
+    return sendMail(mail);
+ };
+
 module.exports = {
+    orderShipped,
     orderConfirmation
 };

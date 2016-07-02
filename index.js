@@ -34,20 +34,23 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
+const getVariantId = (body) => {
+    return 2;
+}
 
-app.get('/shipping', (req, res) => {
+app.post('/shipping', (req, res) => {
 
     let info = {
         "recipient": {
-            "address1": "1199 Hamilton Rd",
-            "city": "London",
-            "country_code": "CA",
-            "state_code": "ON",
-            "zip": "N5W 1G1"
+            "address1": req.body.address,
+            "city": req.body.city,
+            "country_code": req.body.country,
+            "state_code": req.body.state,
+            "zip": req.body.zip
         },
         "items": [{
             "quantity": 1,
-            "variant_id": 2
+            "variant_id": getVariantId(req.body)
         }]
     };
 

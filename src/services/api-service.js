@@ -13,6 +13,18 @@ const uploadCanvas = (dataUrl) => {
     });
 };
 
+const shippingEstimate = (data) => {
+    return new Promise((resolve, reject) => {
+        request.post('/shipping')
+        .send(data)
+        .end((err, res) => {
+            if(err) reject(err);
+            else resolve(res);
+        });
+    });
+
+}
+
 const submitOrder = (data) => {
     return new Promise((resolve, reject) => {
         request.post('/order')
@@ -26,5 +38,6 @@ const submitOrder = (data) => {
 
 module.exports = {
     uploadCanvas,
+    shippingEstimate,
     submitOrder
 };
