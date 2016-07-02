@@ -34,6 +34,31 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
+
+app.get('/shipping', (req, res) => {
+
+    let info = {
+        "recipient": {
+            "address1": "1199 Hamilton Rd",
+            "city": "London",
+            "country_code": "CA",
+            "state_code": "ON",
+            "zip": "N5W 1G1"
+        },
+        "items": [{
+            "quantity": 1,
+            "variant_id": 2
+        }]
+    };
+
+    request.post('https://api.theprintful.com/shipping/rates')
+    .set('Authorization', `Basic ${new Buffer(process.env.PRINTFUL_API_KEY).toString('base64')}`)
+    .send(info)
+    .end((err, apiRes) => {
+        res.json(apiRes.body);
+    });
+});
+
 app.post('/runs', multipartMiddleware, (req, res) => {
 
     let runs = req.files.runs;
@@ -92,6 +117,16 @@ app.post('/save', (req, res) => {
             url:`/imgs/${filename}`
         });
     })
+});
+
+app.post('/order', (req, res) => {
+
+    let orderInfo = req.body;
+    res.json(orderInfo);
+
+    // mailer.orderConfirmation(orderInfo.email, orderInfo).then(emailRes => {
+    //     res.json(Object.assign(req.body, emailRes));
+    // });
 });
 
 

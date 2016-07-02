@@ -3,7 +3,6 @@
 const request = require('superagent');
 
 const uploadCanvas = (dataUrl) => {
-
     return new Promise((resolve, reject) => {
         request.post('/save')
         .send({'data': dataUrl})
@@ -15,7 +14,14 @@ const uploadCanvas = (dataUrl) => {
 };
 
 const submitOrder = (data) => {
-
+    return new Promise((resolve, reject) => {
+        request.post('/order')
+        .send(data)
+        .end((err, res) => {
+            if(err) reject(err);
+            else resolve(res);
+        });
+    });
 };
 
 module.exports = {

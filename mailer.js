@@ -4,7 +4,7 @@ const helper = require('sendgrid').mail;
 const handlebars = require('handlebars');
 const sendgrid = require('sendgrid').SendGrid(process.env.SENDGRID_API_KEY)
 
-const from_email = new helper.Email("order@irunhere.com")
+const from_email = new helper.Email(process.env.FROM_EMAIL)
 const confirmationTemplate = handlebars.compile(fs.readFileSync(`${__dirname}\/templates\/order-confirmation.html`, 'utf8'));
 
 const orderConfirmation = (to_email, locals) => {
