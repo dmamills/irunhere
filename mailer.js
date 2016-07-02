@@ -1,14 +1,16 @@
 "use strict";
+const fs = require('fs');
 const helper = require('sendgrid').mail;
+const handlebars = require('handlebars');
 const sendgrid = require('sendgrid').SendGrid(process.env.SENDGRID_API_KEY)
 
 const from_email = new helper.Email("order@irunhere.com")
+const confirmationTemplate = handlebars.compile(fs.readFileSync(`${__dirname}\/templates\/order-confirmation.html`, 'utf8'));
 
-
-const orderConfirmation = (to_email) => {
+const orderConfirmation = (to_email, locals) => {
 
     let subject = "Thank you for your order"
-    let content = new helper.Content("text/plain", "blah blah blah")
+    let content = new helper.Content("text/html", confirmationTemplate(locals));
 
     to_email = new helper.Email(to_email);
     let mail = new helper.Mail(from_email, subject, to_email, content)
