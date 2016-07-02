@@ -96,7 +96,7 @@ app.post('/save', (req, res) => {
 
 
 app.get('/email', (req, res) => {
-    mailer.orderConfirmation('mills.dma@gmail.com').then(data => {
+    mailer.orderConfirmation('mills.dma@gmail.com', { first_name: 'Daniel', last_name: 'Mills'}).then(data => {
         res.json(data);
     });
 });

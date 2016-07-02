@@ -4,13 +4,16 @@ $border-color: #eee;
 
 html, body, .map-wrap { height: 100%; }
 
+body {
+    font-family: $brand-font, sans-serif;
+}
+
 .app-container {
     display: flex;
 }
 
 .control-pane {
 
-    font-family: $brand-font, sans-serif;
     display: flex;
     flex-flow: column;
 

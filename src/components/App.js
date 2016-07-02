@@ -1,7 +1,7 @@
 "use strict";
 const React = require('react');
 const html2canvas = require('html2canvas');
-const request = require('superagent');
+const api = require('../services/api-service.js');
 
 const Uploader = require('./uploader');
 const Heatmap = require('./heat-map');
@@ -27,16 +27,19 @@ const App = React.createClass({
             theme: initalTheme.settings
         };
     },
+    _closeModal() {
+        let state = this.state;
+        state.hasUploaded = false;
+        this.setState(state);
+    },
     _capture() {
         html2canvas(this.refs.content.firstChild, {
             proxy: '/convert',
             logging: true,
             taintTest: true
         }).then(canvas => {
-            let data = canvas.toDataURL();
-            request.post('/save')
-            .send({'data': data.split('data:image/png;base64,')[1]})
-            .end((err, res) => {
+            let data = canvas.toDataURL().split('data:image/png;base64,')[1];
+            api.uploadCanvas(data).then(res => {
                 let state = this.state;
                 state.hasUploaded = true;
                 state.img_url = res.body.url;
@@ -74,7 +77,7 @@ const App = React.createClass({
 
         return (
             <div className="app-container">
-                <UploadedModal show={this.state.hasUploaded} url={this.state.img_url}/>
+                <UploadedModal show={this.state.hasUploaded} url={this.state.img_url} closeModal={this._closeModal}/>
                 <div className="control-pane">
                     <div className="widget brand">
                         <h1>I RUN HERE</h1>
@@ -82,7 +85,7 @@ const App = React.createClass({
                     <Uploader onUpload={this._onUpload}/>
                     <ThemeSelector onSelect={this._themeChanged} />
                     <HeatmapThemeSelector onSelect={this._heatmapThemeChanged} />
-                    <HeatmapControls onUpdates={this._onUpdates} capture={this._capture.bind(this)}/>
+                    <HeatmapControls onUpdates={this._onUpdates} capture={this._capture}/>
                 </div>
                 <div className="preview-container" ref="content">
                     <Map google={window.google} initialCenter={position}>

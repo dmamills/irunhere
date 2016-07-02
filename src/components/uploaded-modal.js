@@ -2,7 +2,6 @@
 const React = require('react');
 const Modal = require('react-modal');
 
-
 const UploadedModal = React.createClass({
 
     _closeModal() {
@@ -10,8 +9,8 @@ const UploadedModal = React.createClass({
             style: this.refs.style.value,
             dimensions: this.refs.dimensions.value
         };
-        console.log(settings);
 
+        console.log(settings);
     },
     render() {
         if(!this.props.show) return false;
@@ -37,6 +36,7 @@ const UploadedModal = React.createClass({
                 </div>
                 <div>
                     <button onClick={this._closeModal}>Save</button>
+                    <button onClick={this.props.closeModal}>Close</button>
                 </div>
             </Modal>
         );
