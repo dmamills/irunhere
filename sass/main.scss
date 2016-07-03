@@ -8,6 +8,10 @@ body {
     font-family: $brand-font, sans-serif;
 }
 
+.flex {
+    display: flex;
+}
+
 .app-container {
     display: flex;
 }
