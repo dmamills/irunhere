@@ -41,10 +41,10 @@ const orderShipped = (to_email, locals) => {
 }
 
 
-const orderConfirmation = (to_email, locals) => {
+const orderConfirmation = (to_email, order) => {
 
     let subject = "Thank you for your order"
-    let content = new helper.Content("text/html", confirmationTemplate(locals));
+    let content = new helper.Content("text/html", confirmationTemplate({ order }));
 
     to_email = new helper.Email(to_email);
     let mail = new helper.Mail(from_email, subject, to_email, content)

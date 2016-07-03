@@ -18,6 +18,7 @@ const randomWord = require('random-word');
 
 const mailer = require('./mailer');
 const printfulApi = require('./printful');
+const Order = require('./models/order');
 
 let app = express();
 let multipartMiddleware = multipart();
@@ -178,11 +179,21 @@ app.post('/save', (req, res) => {
 app.post('/order', (req, res) => {
 
     let orderInfo = req.body;
-    res.json(orderInfo);
+    let order = new Order(orderInfo);
 
-    // mailer.orderConfirmation(orderInfo.email, orderInfo).then(emailRes => {
-    //     res.json(Object.assign(req.body, emailRes));
-    // });
+    order.save().then(order => {
+        mailer.orderConfirmation(orderInfo.email, order.toJSON()).then(emailRes => {
+            console.log(emailRes);
+            res.json({ orderInfo: order});
+        }, err => {
+            console.log(err);
+            res.status(400).json({error: err});
+        });
+    }).catch(err => {
+        console.log(err);
+        res.status(400).json({error: err});
+    });
+
 });
 
 

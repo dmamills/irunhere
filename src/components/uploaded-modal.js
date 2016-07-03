@@ -54,8 +54,8 @@ const UploadedModal = React.createClass({
 
         api.shippingEstimate(settings).then(res => {
             state.isLoading = false;
-             state.shipping_estimates = res.body.result;
-             this.setState(state);
+            state.shipping_estimates = res.body.result;
+            this.setState(state);
         });
     },
     _submitOrder() {
@@ -66,15 +66,19 @@ const UploadedModal = React.createClass({
             first_name: this.refs.first_name.value,
             last_name: this.refs.last_name.value,
             address: this.refs.address1.value,
+            city: this.refs.city.value,
             state: this.refs.state.value,
             zip: this.refs.zip.value,
             country: this.refs.country.value,
             img_url: this.props.url,
             email: this.refs.email.value,
-            shipping_method: this.refs.shipping_method.value
+            shipping_method: this.refs.shipping_method.value,
+            product_id: this.state.product.id
         };
 
-        console.log(settings);
+        api.submitOrder(settings).then(info => {
+            debugger;
+        });
     },
     _getProduct(e) {
         let settings = {
@@ -92,7 +96,7 @@ const UploadedModal = React.createClass({
     _countrySelect(e) {
         let state = this.state;
         let code = e.target.value;
-        state.selectedCountry = state.countries.filter(c => c.code === code)[0];
+        state.selectedCountry = state.countries.find(c => c.code === code);
         this.setState(state);
     },
     render() {

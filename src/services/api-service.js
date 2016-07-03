@@ -50,7 +50,7 @@ const submitOrder = (data) => {
         .send(data)
         .end((err, res) => {
             if(err) reject(err);
-            else resolve(res);
+            else resolve(res.body.orderInfo);
         });
     });
 };

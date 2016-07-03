@@ -1,0 +1,20 @@
+CREATE TABLE `orders` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(500) DEFAULT NULL,
+  `last_name` varchar(500) DEFAULT NULL,
+  `email` varchar(500) DEFAULT NULL,
+  `style` varchar(50) DEFAULT NULL,
+  `dimensions` varchar(30) DEFAULT NULL,
+  `address` varchar(200) DEFAULT NULL,
+  `address2` varchar(200) DEFAULT NULL,
+  `city` varchar(200) DEFAULT NULL,
+  `state` varchar(2) DEFAULT NULL,
+  `country` varchar(2) DEFAULT NULL,
+  `zip` varchar(6) DEFAULT NULL,
+  `product_id` int(11) NOT NULL,
+  `img_url` varchar(500) DEFAULT NULL,
+  `shipping_method` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
