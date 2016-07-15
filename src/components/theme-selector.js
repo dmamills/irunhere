@@ -12,6 +12,7 @@ const ThemeSelector = React.createClass({
         }
     },
     _select(i) {
+        console.log(i);
         let state = this.state;
         state.selected = i;
         this.props.onSelect(state.themes[i]);
@@ -20,18 +21,32 @@ const ThemeSelector = React.createClass({
     render() {
 
         let themes = this.state.themes.map((t, i) => {
-            return { value: i, label: t.name }
+            t.id = i;
+            return t;
         });
+
+        let optionRender = (t) => {
+            let style = {
+                'marginLeft': '.5rem'
+            };
+
+            return (<div className="flex flex-vert-center">
+                <img className="map-theme-preview rounded" src="http://placehold.it/40x40"/>
+                <strong style={style}>{t.name}</strong>
+            </div>);
+        }
 
         return (
             <div className="widget theme-selector">
                 <h4>Map Themes</h4>
                 <Select
-                    value={themes[this.state.selected]}
+                    value={themes[this.state.selected].name}
                     clearable={false}
+                    valueKey={'id'}
                     options={themes}
                     autoBlur={true}
                     searchable={false}
+                    optionRenderer={optionRender}
                     onChange={this._select}
                 />
             </div>

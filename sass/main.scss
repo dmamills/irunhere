@@ -1,3 +1,4 @@
+@import 'helper';
 
 $brand-font: 'Raleway';
 $border-color: #eee;
@@ -8,14 +9,21 @@ body {
     font-family: $brand-font, sans-serif;
 }
 
-.flex {
-    display: flex;
-}
-
 .app-container {
     display: flex;
 }
 
+.img-container {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+}
+
+.img-preview-container {
+    width: 600px;
+    height: 300px;
+    overflow: hidden;
+}
 .control-pane {
 
     display: flex;
@@ -43,6 +51,13 @@ body {
         }
     }
 }
+
+.order-info {
+    div label {
+        width: 100px;
+    }
+}
+
 
 .upload-runs button {
     display: block;

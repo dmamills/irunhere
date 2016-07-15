@@ -22,6 +22,8 @@ const HeatmapControls = React.createClass({
         }
     },
     render() {
+
+        let opacity = `${Math.floor(this.state.opacity * 100)}%`;
         return (
             <div className="widget heatmap-controls">
                 <h4>Heatmap controls</h4>
@@ -35,7 +37,7 @@ const HeatmapControls = React.createClass({
                 </div>
                 <div>
                     <input name="opacity" type="range" min="0" max="1" step="0.01" value={this.state.opacity} onChange={this._onChange('opacity')}/>
-                    <label for="opacity">Opacity {this.state.opacity}</label>
+                    <label for="opacity">Opacity {opacity}</label>
                 </div>
 
                 <div>

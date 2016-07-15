@@ -143,21 +143,39 @@ const UploadedModal = React.createClass({
                     <h3>Selected Product</h3>
                     <strong>{this.state.product.name}</strong> - <span>${this.state.product.price}</span>
                 </div>
-
-                <img width="25%" height="25%" src={this.state.product.image}/>
+                <div className="img-container">
+                    <img className="scaled-image-cover" src={this.state.product.image}/>
+               </div> 
             </div>);
         }
-
 
         return (
             <Modal isOpen={true}>
                 <h1>Order</h1>
                 <div className="flex">
                     <div>
-                        <img width="50%" height="50%" src={this.props.url} />
+                        <div className="img-preview-container">
+                            <img className="scaled-image-cover" src={this.props.url}/>
+                        </div> 
                         {product}
+                        <h5>Product Info</h5>
+                        <div>
+                            <label for="style">Style</label>
+                            <select ref="style" id="style" onChange={this._getProduct}>
+                                <option value="poster">Poster</option>
+                                <option value="framed">Framed Poster</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="dimensions">Dimensions</label>
+                            <select ref="dimensions" id="dimensions" onChange={this._getProduct}>
+                                <option value="12x16">12x16</option>
+                                <option value="16x20">16x20</option>
+                                <option value="24x36">24x36</option>
+                            </select>
+                        </div>
                     </div>
-                    <div>
+                    <div className="order-info">
                         <h5>Customer Info</h5>
                         <div>
                             <label for="first_name">First Name</label>
@@ -193,22 +211,7 @@ const UploadedModal = React.createClass({
                             <label for="zip">Zip/Postal Code</label>
                             <input type="text" ref="zip" id="zip"/>
                         </div>
-                        <h5>Product Info</h5>
-                        <div>
-                            <label for="style">Style</label>
-                            <select ref="style" id="style" onChange={this._getProduct}>
-                                <option value="poster">Poster</option>
-                                <option value="framed">Framed Poster</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="dimensions">Dimensions</label>
-                            <select ref="dimensions" id="dimensions" onChange={this._getProduct}>
-                                <option value="12x16">12x16</option>
-                                <option value="16x20">16x20</option>
-                                <option value="24x36">24x36</option>
-                            </select>
-                        </div>
+
                         <div>
                             <Loader isLoading={this.state.isLoading}/>
                             {shipping_estimates}

@@ -12,7 +12,6 @@ const HeatmapThemeSelector = require('./heatmap-theme-selector');
 const HeatmapControls = require('./heatmap-controls');
 const Map = require('google-maps-react').Map;
 
-
 const initalTheme = require('../themes.json').themes[0];
 const heatmapTheme = require('../heatmap-themes').themes[1];
 

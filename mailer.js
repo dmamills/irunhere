@@ -8,7 +8,6 @@ const from_email = new helper.Email(process.env.FROM_EMAIL)
 
 const fileToTemplateFn = (name) => {
     let filepath = `${__dirname}\/templates\/${name}.html`;
-    // console.log('compiling template: ' + filepath);
     let template = fs.readFileSync(filepath, 'utf8');
     return handlebars.compile(template);
 };
