@@ -14,7 +14,6 @@ const HeatmapControls = React.createClass({
         };
     },
     _onChange(type) {
-
         return (e) => {
             let state = this.state;
             state[type] = e.target.value;

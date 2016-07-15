@@ -27,12 +27,8 @@ const App = React.createClass({
             theme: initalTheme.settings
         };
     },
-    _closeModal() {
-        let state = this.state;
-        state.hasUploaded = false;
-        this.setState(state);
-    },
     _capture() {
+        //TODO: refactor out and scale canvas to printable size
         html2canvas(this.refs.content.firstChild, {
             proxy: '/convert',
             logging: true,
@@ -40,36 +36,27 @@ const App = React.createClass({
         }).then(canvas => {
             let data = canvas.toDataURL().split('data:image/png;base64,')[1];
             api.uploadCanvas(data).then(res => {
-                let state = this.state;
-                state.hasUploaded = true;
-                state.img_url = res.body.url;
-                this.setState(state);
+                this._updateState('hasUploaded')(true);
+                this._updateState('img_url')(res.body.url);
             });
         });
 
     },
-    _onUpload(points) {
-        let state = this.state;
-        state.points = points;
-        this.setState(state);
+    _updateState(prop) {
+        return value => {
+            let state = this.state;
+            state[prop] = value;
+            this.setState(state);
+        }
     },
-    _heatmapThemeChanged(theme) {
-        let state = this.state;
-        state.heatmap_theme = theme.settings;
-        this.setState(state);
-    },
-    _themeChanged(theme) {
-        let state = this.state;
-        state.theme = theme.settings;
-        this.setState(state);
-    },
-    _onUpdates(settings) {
-        let state = this.state;
-        state.heatmap_settings = settings;
-        this.setState(settings);
+    _updateTheme(prop) {
+        return theme => {
+            let state = this.state;
+            state[prop] = theme.settings;
+            this.setState(state);
+        }
     },
     render() {
-
         let position = {
             'lat': 43.4643,
             'lng': -80.5204
@@ -77,15 +64,18 @@ const App = React.createClass({
 
         return (
             <div className="app-container">
-                <UploadedModal show={this.state.hasUploaded} url={this.state.img_url} closeModal={this._closeModal}/>
+                <UploadedModal show={this.state.hasUploaded} url={this.state.img_url} closeModal={this._updateState('hasUploaded')}/>
                 <div className="control-pane">
+
                     <div className="widget brand">
                         <h1>I RUN HERE</h1>
                     </div>
-                    <Uploader onUpload={this._onUpload}/>
-                    <ThemeSelector onSelect={this._themeChanged} />
-                    <HeatmapThemeSelector onSelect={this._heatmapThemeChanged} />
-                    <HeatmapControls onUpdates={this._onUpdates} capture={this._capture}/>
+
+                    <Uploader onUpload={this._updateState('points')}/>
+                    <ThemeSelector onSelect={this._updateTheme('theme')} />
+                    <HeatmapThemeSelector onSelect={this._updateTheme('heatmap_theme')} />
+                    <HeatmapControls onUpdates={this._updateState('heatmap_settings')} capture={this._capture}/>
+
                 </div>
                 <div className="preview-container" ref="content">
                     <Map google={window.google} initialCenter={position} zoom={this.state.heatmap_settings.zoom}>

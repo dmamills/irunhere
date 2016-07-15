@@ -77,7 +77,7 @@ const UploadedModal = React.createClass({
         };
 
         api.submitOrder(settings).then(info => {
-            debugger;
+            console.log(info);
         });
     },
     _getProduct(e) {
@@ -101,6 +101,10 @@ const UploadedModal = React.createClass({
     },
     render() {
         if(!this.props.show) return false;
+
+        let closeFn = () => {
+            this.props.closeModal(false);
+        }
 
         let shipping_estimates = false;
         if(this.state.shipping_estimates) {
@@ -143,6 +147,7 @@ const UploadedModal = React.createClass({
                 <img width="25%" height="25%" src={this.state.product.image}/>
             </div>);
         }
+
 
         return (
             <Modal isOpen={true}>
@@ -208,7 +213,7 @@ const UploadedModal = React.createClass({
                             <Loader isLoading={this.state.isLoading}/>
                             {shipping_estimates}
                             {shippingBtn}
-                            <button onClick={this.props.closeModal}>Close</button>
+                            <button onClick={closeFn}>Close</button>
                         </div>
                     </div>
                 </div>
