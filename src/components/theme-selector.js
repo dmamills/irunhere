@@ -28,6 +28,7 @@ const ThemeSelector = React.createClass({
                 <h4>Map Themes</h4>
                 <Select
                     value={themes[this.state.selected]}
+                    clearable={false}
                     options={themes}
                     autoBlur={true}
                     searchable={false}

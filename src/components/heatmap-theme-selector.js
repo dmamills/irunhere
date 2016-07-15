@@ -28,6 +28,7 @@ const HeatmapThemeSelector = React.createClass({
                 <h4>Heatmap Themes</h4>
                 <Select
                     value={themes[this.state.selected]}
+                    clearable={false}
                     options={themes}
                     autoBlur={true}
                     searchable={false}
