@@ -62,16 +62,6 @@ button.paper-button {
     position: relative;
 }
 
-.img-preview-container {
-    width: 600px;
-
-
-    height: 300px;
-
-    overflow: hidden;
-
-}
-
 .control-pane {
 
     display: flex;
@@ -100,9 +90,18 @@ button.paper-button {
     }
 }
 
+.img-preview-container {
+    width: calc(100% - 250px);
+}
+
 .order-info {
-    div label {
-        width: 100px;
+    width: 250px;
+    margin-left: 1rem;
+
+    label {
+        cursor: pointer;
+        display: block;
+        margin-bottom: 0.25rem;
     }
 }
 

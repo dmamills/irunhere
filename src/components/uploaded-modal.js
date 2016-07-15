@@ -153,22 +153,22 @@ const UploadedModal = React.createClass({
             <Modal isOpen={true}>
                 <h1>Order</h1>
                 <div className="flex">
-                    <div>
-                        <div className="img-preview-container">
+                    <div className="img-preview-container">
+                        <div>
                             <img className="scaled-image-cover" src={this.props.url}/>
                         </div> 
                         {product}
                         <h5>Product Info</h5>
                         <div>
-                            <label for="style">Style</label>
-                            <select ref="style" id="style" onChange={this._getProduct}>
+                            <label htmlFor="style">Style</label>
+                            <select name="style" ref="style" id="style" onChange={this._getProduct}>
                                 <option value="poster">Poster</option>
                                 <option value="framed">Framed Poster</option>
                             </select>
                         </div>
                         <div>
-                            <label for="dimensions">Dimensions</label>
-                            <select ref="dimensions" id="dimensions" onChange={this._getProduct}>
+                            <label htmlFor="dimensions">Dimensions</label>
+                            <select name="dimensions" ref="dimensions" id="dimensions" onChange={this._getProduct}>
                                 <option value="12x16">12x16</option>
                                 <option value="16x20">16x20</option>
                                 <option value="24x36">24x36</option>
@@ -177,42 +177,42 @@ const UploadedModal = React.createClass({
                     </div>
                     <div className="order-info">
                         <h5>Customer Info</h5>
-                        <div>
-                            <label for="first_name">First Name</label>
-                            <input type="text" ref="first_name" id="first_name"/>
+                        <div className="flex flex-column">
+                            <label htmlFor="first_name">First Name</label>
+                            <input name="first_name" type="text" ref="first_name" id="first_name"/>
                         </div>
-                        <div>
-                            <label for="last_name">Last Name</label>
-                            <input type="text" ref="last_name" id="last_name"/>
+                        <div className="flex flex-column">
+                            <label htmlFor="last_name">Last Name</label>
+                            <input name="last_name" type="text" ref="last_name" id="last_name"/>
                         </div>
-                        <div>
-                            <label for="email">Email</label>
-                            <input type="text" ref="email" id="email"/>
+                        <div className="flex flex-column">
+                            <label htmlFor="email">Email</label>
+                            <input name="email" type="text" ref="email" id="email"/>
                         </div>
                         <h5>Shipping Info</h5>
-                        <div>
-                            <label for="address1">Address</label>
-                            <input type="text" ref="address1" id="address1"/>
+                        <div className="flex flex-column">
+                            <label htmlFor="address1">Address</label>
+                            <input name="address1" type="text" ref="address1" id="address1"/>
                         </div>
-                        <div>
-                            <label for="city">City</label>
-                            <input type="text" ref="city" id="city"/>
+                        <div className="flex flex-column">
+                            <label htmlFor="city">City</label>
+                            <input name="city" type="text" ref="city" id="city"/>
                         </div>
-                        <div>
-                            <label for="country">Country</label>
-                            <select ref="country" id="country" onChange={this._countrySelect}>
+                        <div className="flex flex-column">
+                            <label htmlFor="country">Country</label>
+                            <select name="country" ref="country" id="country" onChange={this._countrySelect}>
                                 {this.state.countries.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
                             </select>
                         </div>
                         <div>
                             {states}
                         </div>
-                        <div>
-                            <label for="zip">Zip/Postal Code</label>
-                            <input type="text" ref="zip" id="zip"/>
+                        <div className="flex flex-column">
+                            <label htmlFor="zip">Zip/Postal Code</label>
+                            <input name="zip" type="text" ref="zip" id="zip"/>
                         </div>
 
-                        <div>
+                        <div className="flex flex-row">
                             <Loader isLoading={this.state.isLoading}/>
                             {shipping_estimates}
                             {shippingBtn}
