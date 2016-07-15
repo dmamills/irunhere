@@ -5,6 +5,9 @@ const _ = require('lodash');
 
 const HeatmapControls = React.createClass({
 
+    componentDidMount() {
+        window.applyButtons();
+    },
     getInitialState() {
         return {
             radius: 15,
@@ -41,7 +44,7 @@ const HeatmapControls = React.createClass({
                 </div>
 
                 <div>
-                    <button onClick={this.props.capture}>Save Image</button>
+                    <button className="btn paper-button" onClick={this.props.capture}>Save Image</button>
                 </div>
             </div>
         );

@@ -57,7 +57,7 @@ const App = React.createClass({
     },
     render() {
         let position = {
-            'lat': 43.4643,
+            'lat': 44.4643,
             'lng': -80.5204
         };
 

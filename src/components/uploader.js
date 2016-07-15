@@ -4,7 +4,9 @@ const React = require('react');
 const request = require('superagent');
 
 const Uploader = React.createClass({
-
+    componentDidMount() {
+        window.applyButtons();
+    },
     _upload(e) {
         e.preventDefault();
 
@@ -25,7 +27,7 @@ console.log(err);
             <form className="widget upload-runs" ref="runs">
                 <h4>Upload Runs</h4>
                 <input name="runs" type="file" multiple ref="files"/>
-                <button onClick={this._upload}>Upload GPX file(s)</button>
+                <button className="btn paper-button" onClick={this._upload}>Upload GPX file(s)</button>
             </form>
         );
     }

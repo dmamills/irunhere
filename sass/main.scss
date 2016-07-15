@@ -19,11 +19,59 @@ body {
     overflow: hidden;
 }
 
+
+
+.btn,
+.btn:link,
+.btn:visited {
+  
+    background-color: rgba(0,0,0,0);
+    border-radius: .3em;
+    border-style: solid;
+    border-width: 1px;
+    color: #111;
+    display: inline-block;
+    letter-spacing: .15em;
+    margin-bottom: .5em;
+    padding: 1em .75em;
+    text-decoration: none;
+    text-transform: uppercase;
+    -webkit-transition: color .4s, background-color .4s, border .4s;
+    transition: color .4s, background-color .4s, border .4s;
+}
+
+.btn:focus {
+    outline: 0;
+}
+
+.btn:hover {
+  color: #7FDBFF;
+  border: 1px solid #7FDBFF;
+  -webkit-transition: background-color .3s, color .3s, border .3s;
+          transition: background-color .3s, color .3s, border .3s;
+}
+
+.btn:active {
+  color: #0074D9;
+  border: 1px solid #0074D9;
+  -webkit-transition: background-color .3s, color .3s, border .3s;
+          transition: background-color .3s, color .3s, border .3s;
+}
+
+button.paper-button {
+    position: relative;
+}
+
 .img-preview-container {
     width: 600px;
+
+
     height: 300px;
+
     overflow: hidden;
+
 }
+
 .control-pane {
 
     display: flex;

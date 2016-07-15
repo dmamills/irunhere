@@ -30,6 +30,7 @@
     "lodash": "^4.13.1",
     "morgan": "^1.7.0",
     "mysql": "^2.11.1",
+    "paper-ripple": "^0.2.0",
     "parse-gpx": "^1.0.0",
     "random-word": "^1.0.2",
     "react": "^15.1.0",

@@ -12,7 +12,6 @@ const ThemeSelector = React.createClass({
         }
     },
     _select(i) {
-        console.log(i);
         let state = this.state;
         state.selected = i;
         this.props.onSelect(state.themes[i]);
@@ -31,7 +30,7 @@ const ThemeSelector = React.createClass({
             };
 
             return (<div className="flex flex-vert-center">
-                <img className="map-theme-preview rounded" src="http://placehold.it/40x40"/>
+                <img className="rounded" src="http://placehold.it/40x40"/>
                 <strong style={style}>{t.name}</strong>
             </div>);
         }
