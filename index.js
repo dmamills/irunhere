@@ -20,6 +20,8 @@ const mailer = require('./mailer');
 const printfulApi = require('./printful');
 const Order = require('./models/order');
 
+const DAT_MARKUP = 1.2;
+
 let app = express();
 let multipartMiddleware = multipart();
 let countriesCache = [];
@@ -86,6 +88,7 @@ app.get('/product', (req, res) => {
         });
     } else {
         printfulApi.getProduct(style, convertDimension(dimensions)).then(product => {
+            product.price = Math.ceil(product.price * DAT_MARKUP);
             console.log('fetching from api');
             productsCache[style][dimensions] = product;
             res.json({
