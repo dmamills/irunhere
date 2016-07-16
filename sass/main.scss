@@ -6,7 +6,7 @@ $border-color: #eee;
 html, body, .map-wrap { height: 100%; }
 
 body {
-    font-family: $brand-font, sans-serif;
+    font-family: BlinkMacSystemFont;
 }
 
 .app-container {
@@ -18,8 +18,6 @@ body {
     height: 200px;
     overflow: hidden;
 }
-
-
 
 .btn,
 .btn:link,
