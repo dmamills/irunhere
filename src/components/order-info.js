@@ -1,5 +1,6 @@
 "use strict"
 const React = require('react');
+const Select = require('react-select');
 
 const Loader = require('./loader');
 const api = require('../services/api-service');
@@ -90,18 +91,14 @@ const OrderInfo = React.createClass({
 
         let states = false;
         if(this.state.selectedCountry && this.state.selectedCountry.states) {
-            states = (
-                <div>
-                    <label for="state">State/Province</label>
-                    <select ref="state" id="state">
-                        {this.state.selectedCountry.states.map(s => <option key={s.code} value={s.code}>{s.name}</option>)}
-                    </select>
-                </div>
-            );
+            states = this.state.selectedCountry.states.map(s => { return { value: s.code, label: s.name}; });
         }
 
         return (
                     <div className="order-info">
+                        <button className="btn paper-button" onClick={this.props.closeFn}>Close</button>
+                        <button className="btn paper-button" onClick={this.props.unsetProduct}>Go Back</button>
+
                         <h5>Customer Info</h5>
                         <div className="flex flex-column">
                             <label htmlFor="first_name">First Name</label>
@@ -131,7 +128,12 @@ const OrderInfo = React.createClass({
                             </select>
                         </div>
                         <div>
-                            {states}
+                           <Select
+                               name="state"
+                               clearable={false}
+                               searchable={false}
+                               options={states}
+                           />
                         </div>
                         <div className="flex flex-column">
                             <label htmlFor="zip">Zip/Postal Code</label>
@@ -141,7 +143,9 @@ const OrderInfo = React.createClass({
                         <div className="flex flex-row">
                             <Loader isLoading={this.state.isLoading}/>
                             {shipping_estimates}
-                            {shippingBtn}
+                            <div>
+                                {shippingBtn}
+                            </div>
                         </div>
                     </div>);
     }

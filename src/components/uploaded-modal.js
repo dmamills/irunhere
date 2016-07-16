@@ -17,29 +17,36 @@ const UploadedModal = React.createClass({
             productSelected: false
         }
     },
+    _closeModal() {
+        this._unsetProduct();
+        this.props.closeModal(false);
+    },
     _productSelected(product) {
         let state = this.state;
         state.productSelected = true;
         state.product = product;
         this.setState(state);
     },
+    _unsetProduct() {
+        let state = this.state;
+        state.productSelected = false;
+        state.product = null;
+        this.setState(state);
+
+    },
     render() {
         if(!this.props.show) return false;
-
-        let closeFn = () => {
-            this.props.closeModal(false);
-        }
 
         if(!this.state.productSelected) {
             return (
                 <Modal isOpen={true}>
-                    <ProductSelection onProductSelected={this._productSelected}/>
+                    <ProductSelection closeFn={this._closeModal} onProductSelected={this._productSelected}/>
                 </Modal>
             );
         } else {
             return (
                 <Modal isOpen={true}>
-                    <OrderInfo url={this.props.url} product={this.state.product}/>
+                    <OrderInfo closeFn={this._closeModal}  unsetProduct={this._unsetProduct} url={this.props.url} product={this.state.product}/>
                 </Modal>
             );
         }

@@ -30,7 +30,7 @@ const ThemeSelector = React.createClass({
             };
 
             return (<div className="flex flex-vert-center">
-                <img className="rounded" src="http://placehold.it/40x40"/>
+                <img src="http://placehold.it/40x40"/>
                 <strong style={style}>{t.name}</strong>
             </div>);
         }
