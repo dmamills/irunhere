@@ -1,7 +1,6 @@
 "use strict";
 const React = require('react');
 const html2canvas = require('html2canvas');
-const api = require('../services/api-service.js');
 
 const Uploader = require('./uploader');
 const Heatmap = require('./heat-map');
@@ -10,8 +9,13 @@ const Theme = require('./theme');
 const ThemeSelector = require('./theme-selector');
 const HeatmapThemeSelector = require('./heatmap-theme-selector');
 const HeatmapControls = require('./heatmap-controls');
-const Map = require('google-maps-react').Map;
 
+const Leaflet = require('leaflet');
+const Map = require('react-leaflet').Map;
+const TileLayer = require('react-leaflet').TileLayer;
+const HeatmapLayer = require('react-leaflet-heatmap-layer').default;
+
+const api = require('../services/api-service.js');
 const initalTheme = require('../themes.json').themes[0];
 const heatmapTheme = require('../heatmap-themes').themes[1];
 
@@ -21,7 +25,7 @@ const App = React.createClass({
             hasUploaded: false,
             points: [],
             img_url: '',
-            heatmap_settings: { intensity: 15 },
+            heatmap_settings: { zoom: 14, opacity: 1, radius: 15 },
             heatmap_theme: heatmapTheme.settings,
             theme: initalTheme.settings
         };
@@ -55,7 +59,17 @@ const App = React.createClass({
             this.setState(state);
         }
     },
+    _mapZoom(e) {
+        let zoom = e.target._zoom;
+        let state = this.state;
+        this.state.heatmap_settings.zoom = zoom;
+        this.setState(state);
+    },
     render() {
+
+        let zoomLevel = parseInt(this.state.heatmap_settings.zoom);
+        let heatmapRadius = parseInt(this.state.heatmap_settings.radius);
+        let opacity = parseInt(this.state.heatmap_settings.opacity);
         let position = {
             'lat': 44.4643,
             'lng': -80.5204
@@ -65,21 +79,31 @@ const App = React.createClass({
             <div className="app-container">
                 <UploadedModal show={this.state.hasUploaded} url={this.state.img_url} closeModal={this._updateState('hasUploaded')}/>
                 <div className="control-pane">
-
                     <div className="widget brand">
                         <h1>I RUN HERE</h1>
                     </div>
-
                     <Uploader onUpload={this._updateState('points')}/>
-                    <ThemeSelector onSelect={this._updateTheme('theme')} />
-                    <HeatmapThemeSelector onSelect={this._updateTheme('heatmap_theme')} />
-                    <HeatmapControls onUpdates={this._updateState('heatmap_settings')} capture={this._capture}/>
-
+                    <ThemeSelector onSelect={this._updateTheme('theme')}/>
+                    <HeatmapThemeSelector onSelect={this._updateTheme('heatmap_theme')}/>
+                    <HeatmapControls heatmapSettings={this.state.heatmap_settings} onUpdates={this._updateState('heatmap_settings')} capture={this._capture}/>
                 </div>
                 <div className="preview-container" ref="content">
-                    <Map google={window.google} initialCenter={position} zoom={this.state.heatmap_settings.zoom}>
-                        <Heatmap theme={this.state.heatmap_theme} points={this.state.points} settings={this.state.heatmap_settings}/>
-                        <Theme theme={this.state.theme}/>
+                    <Map
+                        animate={true}
+                        center={position}
+                        zoom={zoomLevel}
+                        longitudeExtractor={m => m.lng}
+                        latitudeExtractor={m => m.lat}
+                        onZoomend={this._mapZoom}
+                    >
+                        <HeatmapLayer
+                            points={this.state.points} 
+                            radius={heatmapRadius}
+                            longitudeExtractor={m => m.lng}
+                            latitudeExtractor={m => m.lat}
+                            intensityExtractor={m => parseFloat(m.lng)}
+                        />
+                        <TileLayer url='http://{s}.tile.osm.org/{z}/{x}/{y}.png' />
                     </Map>
                 </div>
             </div>

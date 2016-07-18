@@ -40,7 +40,7 @@ const UploadedModal = React.createClass({
         if(!this.state.productSelected) {
             return (
                 <Modal isOpen={true}>
-                    <ProductSelection closeFn={this._closeModal} onProductSelected={this._productSelected}/>
+                    <ProductSelection closeFn={this._closeModal} url={this.props.url} onProductSelected={this._productSelected}/>
                 </Modal>
             );
         } else {

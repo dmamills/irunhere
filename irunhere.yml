@@ -1,0 +1,20 @@
+# ~/.tmuxinator/irunhere.yml
+
+name: irunhere
+root: ~/projects/irunhere
+
+pre: mysql.server start
+windows:
+  - editor:
+      layout: main-vertical
+      panes:
+        - vim
+  - server:
+      layout: main-vertical
+      panes:
+        - npm run watchify
+        - npm run watchsassy
+        - npm run watch
+  - scratch: 
+      panes:
+        - echo "lets do the damn thang"

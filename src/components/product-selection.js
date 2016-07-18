@@ -87,6 +87,7 @@ const ProductSelection = React.createClass({
             <div className="product-selection">
                 <button className="btn paper-button" onClick={this.props.closeFn}>Close</button>
                 <h3>Looks good!</h3>
+                <img src={this.props.url} />
                 <p>Now let's select the type of product you'd like to have your accomplishments printed on!</p>
                 {product}
                 <div>
